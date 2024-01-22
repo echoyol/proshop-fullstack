@@ -35,7 +35,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const userExists = await User.findOne({ email })
 
   if (userExists) {
-    res.status(401)
+    res.status(400)
     throw new Error('User already exists')
   }
 
@@ -85,7 +85,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       isAdmin: user.isAdmin,
     })
   } else {
-    res.status(401)
+    res.status(404)
     throw new Error('User not found')
   }
 })
