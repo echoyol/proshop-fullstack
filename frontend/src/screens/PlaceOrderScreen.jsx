@@ -1,16 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import {
-  Button,
-  Row,
-  Col,
-  Card,
-  Image,
-  ListGroup,
-  Form,
-  ListGroupItem,
-} from 'react-bootstrap'
+import { Button, Row, Col, Card, Image, ListGroup } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import CheckoutSteps from '../components/CheckoutSteps'
 import { useCreateOrderMutation } from '../slices/ordersApiSlice'
