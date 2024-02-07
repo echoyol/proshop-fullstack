@@ -3,9 +3,14 @@ import Product from '../components/Product'
 import { useGetProductsQuery } from '../slices/productsApiSlice'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import { useParams } from 'react-router-dom'
+import Paginate from '../components/Paginate'
 
 function HomeScreen() {
-  const { data: products, isLoading, error } = useGetProductsQuery()
+  const { pageNumber } = useParams()
+
+  const { data, isLoading, error } = useGetProductsQuery({ pageNumber })
+  console.log(data)
   return (
     <>
       {isLoading ? (
@@ -18,7 +23,7 @@ function HomeScreen() {
         <>
           <h1>Lasted Products</h1>
           <Row>
-            {products.map((product) => (
+            {data.products.map((product) => (
               <Col
                 key={product._id}
                 sm={12}
@@ -30,6 +35,10 @@ function HomeScreen() {
               </Col>
             ))}
           </Row>
+          <Paginate
+            pages={data.pages}
+            page={data.page}
+          />
         </>
       )}
     </>
