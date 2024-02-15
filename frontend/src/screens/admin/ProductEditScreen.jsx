@@ -148,6 +148,7 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
+            {loadingUpload && <Loader />}
             <Form.Group
               controlId='brand'
               className='my-2'
