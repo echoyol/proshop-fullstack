@@ -20,7 +20,7 @@ const OrderScreen = () => {
     data: order,
     refetch,
     isLoading,
-    isError,
+    error,
   } = useGetOrderDetailsQuery(orderId)
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation()
@@ -61,7 +61,7 @@ const OrderScreen = () => {
   function onApprove(data, actions) {
     return actions.order.capture().then(async function (details) {
       try {
-        await payOrder({ orderId, details })
+        await payOrder({ orderId, details }).unwrap()
         refetch()
         toast.success('Payment successful')
       } catch (err) {
@@ -69,12 +69,6 @@ const OrderScreen = () => {
       }
     })
   }
-
-  // async function onApproveTest() {
-  //   await payOrder({ orderId, details: { payer: {} } })
-  //   refetch()
-  //   toast.success('Payment successful')
-  // }
 
   function onError(err) {
     toast.error(err.message)
@@ -107,8 +101,8 @@ const OrderScreen = () => {
   }
   return isLoading ? (
     <Loader />
-  ) : isError ? (
-    <Message variant='danger' />
+  ) : error ? (
+    <Message variant='danger'>{error?.data?.message || error.error}</Message>
   ) : (
     <>
       <h1>Order {order._id}</h1>
@@ -212,13 +206,6 @@ const OrderScreen = () => {
                     <Loader />
                   ) : (
                     <div>
-                      {/* <Button
-                        onClick={onApproveTest}
-                        style={{ marginBottom: '10px' }}
-                      >
-                        Test Pay Order
-                      </Button> */}
-
                       <div>
                         <PayPalButtons
                           createOrder={createOrder}
